@@ -1,4 +1,5 @@
 import 'package:gsheets/gsheets.dart';
+import 'model/user.dart';
 
 import 'gsheets_credentials.dart';
 // gsheets_credentials.dart is added to gitignore due security reasons
@@ -13,5 +14,20 @@ class SheetsApi {
     final spreadSheet = await gsheetsInstance.spreadsheet(spreadsheetId);
 
     _usersTab = spreadSheet.worksheetByTitle('Users');
+  }
+
+  static Future addUser(List<Map<String, dynamic>> rowList) async {
+    if (_usersTab == null) return;
+    _usersTab!.values.map.appendRows(rowList);
+  }
+
+  /// This method is used as helper to set id of new user
+  static Future<int> getRowCount() async {
+    if (_usersTab == null) return 0;
+
+    final lastRow = await _usersTab!.values.lastRow();
+    if (lastRow == null) return 0;
+
+    return int.tryParse(lastRow.first) ?? 0;
   }
 }

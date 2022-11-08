@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'gsheets_api/gsheets_api.dart';
+import 'gsheets_api/model/user.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,13 +27,20 @@ class MyApp extends StatelessWidget {
             children: [
               ElevatedButton(
                 onPressed: () async {
-                  // TODO: Call Gsheet create row method
+                  final idOfNewUser = await SheetsApi.getRowCount() + 1;
+                  final user = User(
+                    id: idOfNewUser.toString(),
+                    avatarUrl: 'AvatarURL',
+                    email: 'User$idOfNewUser@email.com',
+                    name: 'TestUserName $idOfNewUser',
+                  );
+                  await SheetsApi.addUser([user.toJson()]);
                 },
                 child: Text('Add test user'),
               ),
               ElevatedButton(
                 onPressed: () async {
-                  // TODO: Call Gsheet create row method
+                  //insertTwoUsers();
                 },
                 child: Text('Add 2 users'),
               ),
