@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () async {
-                  //insertTwoUsers();
+                  insertTwoUsers();
                 },
                 child: Text('Add 2 users'),
               ),
@@ -49,5 +49,29 @@ class MyApp extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future insertTwoUsers() async {
+    final idOfFirstUser = await SheetsApi.getRowCount() + 1;
+    final idOfSecondUser = await SheetsApi.getRowCount() + 2;
+
+    final users = [
+      User(
+        id: idOfFirstUser.toString(),
+        name: 'TestUserName $idOfFirstUser',
+        email: 'User$idOfFirstUser@email.com',
+        avatarUrl: 'AvatarURL',
+      ),
+      User(
+        id: idOfSecondUser.toString(),
+        name: 'TestUserName $idOfSecondUser',
+        email: 'User$idOfSecondUser@email.com',
+        avatarUrl: 'AvatarURL',
+      ),
+    ];
+
+    final jsonUsers = users.map((user) => user.toJson()).toList();
+
+    await SheetsApi.addUser(jsonUsers);
   }
 }
