@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 
-void main() {
+import 'gsheets_api/gsheets_api.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await SheetsApi.init();
+
   runApp(const MyApp());
 }
 
