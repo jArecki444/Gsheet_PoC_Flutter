@@ -44,6 +44,13 @@ class MyApp extends StatelessWidget {
                 },
                 child: Text('Add 2 users'),
               ),
+              ElevatedButton(
+                onPressed: () async {
+                  final res = await SheetsApi.getUserById('1');
+                  print(res);
+                },
+                child: Text('Get user'),
+              ),
             ],
           ),
         ),

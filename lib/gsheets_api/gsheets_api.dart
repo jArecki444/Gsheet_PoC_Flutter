@@ -30,4 +30,15 @@ class SheetsApi {
 
     return int.tryParse(lastRow.first) ?? 0;
   }
+
+  static Future<User?> getUserById(String id) async {
+    if (_usersTab == null) return null;
+
+    final jsonResponse = await _usersTab!.values.map.rowByKey(
+      id,
+      fromColumn: 1,
+    );
+
+    return jsonResponse != null ? User.fromJson(jsonResponse) : null;
+  }
 }

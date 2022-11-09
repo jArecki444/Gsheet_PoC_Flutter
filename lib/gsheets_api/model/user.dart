@@ -24,4 +24,11 @@ class User {
         UserFields.email: email,
         UserFields.avatarUrl: avatarUrl,
       };
+
+  static User fromJson(Map<String, dynamic> json) => User(
+        id: json[UserFields.id],
+        name: json[UserFields.name],
+        email: json[UserFields.email],
+        avatarUrl: json[UserFields.avatarUrl],
+      );
 }
