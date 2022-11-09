@@ -41,4 +41,10 @@ class SheetsApi {
 
     return jsonResponse != null ? User.fromJson(jsonResponse) : null;
   }
+
+  static Future<List<User>> getAllUsers() async {
+    if (_usersTab == null) return <User>[];
+    final users = await _usersTab!.values.map.allRows();
+    return users == null ? <User>[] : users.map(User.fromJson).toList();
+  }
 }
