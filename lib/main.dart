@@ -25,65 +25,74 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(title: Text('GSheet Poc')),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            ElevatedButton(
-              onPressed: () async {
-                final idOfNewUser = await SheetsApi.getRowCount() + 1;
-                final user = User(
-                  id: idOfNewUser.toString(),
-                  avatarUrl: 'AvatarURL',
-                  email: 'User$idOfNewUser@email.com',
-                  name: 'TestUserName $idOfNewUser',
-                );
-                await SheetsApi.addUser([user.toJson()]);
-              },
-              child: Text('Add test user'),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                insertTwoUsers();
-              },
-              child: Text('Add 2 users'),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                final res = await SheetsApi.getUserById('1');
-                if (res != null) {
+        appBar: AppBar(title: const Text('GSheet Poc')),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              ElevatedButton(
+                onPressed: () async {
+                  final idOfNewUser = await SheetsApi.getRowCount() + 1;
+                  final user = User(
+                    id: idOfNewUser.toString(),
+                    avatarUrl: 'AvatarURL',
+                    email: 'User$idOfNewUser@email.com',
+                    name: 'TestUserName $idOfNewUser',
+                  );
+                  await SheetsApi.addUser([user.toJson()]);
+                },
+                child: const Text('Add test user'),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  insertTwoUsers();
+                },
+                child: const Text('Add 2 users'),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  final res = await SheetsApi.getUserById('1');
+                  if (res != null) {
+                    setState(() {
+                      users = [res];
+                    });
+                  }
+                },
+                child: const Text('Get user'),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  final res = await SheetsApi.getAllUsers();
                   setState(() {
-                    users = [res];
+                    users = res;
                   });
-                }
-              },
-              child: Text('Get user'),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                final res = await SheetsApi.getAllUsers();
-                setState(() {
-                  users = res;
-                });
-              },
-              child: Text('Get all users'),
-            ),
-            if (users.isNotEmpty)
-              Container(
-                height: 400,
-                child: Expanded(
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: users.length,
-                      itemBuilder: (ctx, index) {
-                        return ListTile(
-                          leading: Text(users[index].name),
-                        );
-                      }),
-                ),
-              )
-          ],
+                },
+                child: const Text('Get all users'),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              if (users.isNotEmpty)
+                SizedBox(
+                  height: 280,
+                  child: Scrollbar(
+                    thumbVisibility: true,
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: users.length,
+                        itemBuilder: (ctx, index) {
+                          return ListTile(
+                            title: Text(users[index].name),
+                            subtitle: Text(users[index].email),
+                          );
+                        }),
+                  ),
+                )
+            ],
+          ),
         ),
       ),
     );
