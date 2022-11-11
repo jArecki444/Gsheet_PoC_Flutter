@@ -47,4 +47,13 @@ class SheetsApi {
     final users = await _usersTab!.values.map.allRows();
     return users == null ? <User>[] : users.map(User.fromJson).toList();
   }
+
+  // It works like PUT method (it will replace all row data with new values)
+  static Future<bool> updateUser(
+    String id,
+    Map<String, dynamic> user,
+  ) async {
+    if (_usersTab == null) return false;
+    return _usersTab!.values.map.insertRowByKey(id, user);
+  }
 }

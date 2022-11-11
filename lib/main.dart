@@ -72,6 +72,21 @@ class _MyAppState extends State<MyApp> {
                 },
                 child: const Text('Get all users'),
               ),
+              ElevatedButton(
+                onPressed: () async {
+                  const updatedUser = User(
+                    id: '1',
+                    avatarUrl: 'AvatarURL Update',
+                    email: 'User@email.com Update',
+                    name: 'TestUserName Update',
+                  );
+                  await SheetsApi.updateUser(
+                    '1',
+                    updatedUser.toJson(),
+                  );
+                },
+                child: const Text('Update first user'),
+              ),
               const SizedBox(
                 height: 20,
               ),
