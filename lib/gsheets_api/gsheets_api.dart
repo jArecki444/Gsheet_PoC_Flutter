@@ -56,4 +56,17 @@ class SheetsApi {
     if (_usersTab == null) return false;
     return _usersTab!.values.map.insertRowByKey(id, user);
   }
+
+  static Future<bool> updateCellValue({
+    required String rowId,
+    required String columnId,
+    required dynamic newCellContent,
+  }) async {
+    if (_usersTab == null) return false;
+    return _usersTab!.values.insertValueByKeys(
+      newCellContent,
+      columnKey: columnId,
+      rowKey: rowId,
+    );
+  }
 }

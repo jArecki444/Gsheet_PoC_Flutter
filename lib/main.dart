@@ -87,6 +87,15 @@ class _MyAppState extends State<MyApp> {
                 },
                 child: const Text('Update first user'),
               ),
+              ElevatedButton(
+                onPressed: () async {
+                  await SheetsApi.updateCellValue(
+                      columnId: 'email',
+                      rowId: '1',
+                      newCellContent: 'updated@email.pl');
+                },
+                child: const Text('Update first user email address'),
+              ),
               const SizedBox(
                 height: 20,
               ),
