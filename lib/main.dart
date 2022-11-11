@@ -111,6 +111,20 @@ class _MyAppState extends State<MyApp> {
                           return ListTile(
                             title: Text(users[index].name),
                             subtitle: Text(users[index].email),
+                            trailing: IconButton(
+                              onPressed: () async {
+                                final userHasBeenDeleted =
+                                    await SheetsApi.deleteRowById(
+                                        users[index].id);
+                                if (userHasBeenDeleted) {
+                                  final res = await SheetsApi.getAllUsers();
+                                  setState(() {
+                                    users = res;
+                                  });
+                                }
+                              },
+                              icon: const Icon(Icons.delete),
+                            ),
                           );
                         }),
                   ),

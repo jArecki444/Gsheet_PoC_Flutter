@@ -69,4 +69,12 @@ class SheetsApi {
       rowKey: rowId,
     );
   }
+
+  static Future<bool> deleteRowById(String rowId) async {
+    if (_usersTab == null) return false;
+
+    final index = await _usersTab!.values.rowIndexOf(rowId);
+    if (index == -1) return false;
+    return _usersTab!.deleteRow(index);
+  }
 }
